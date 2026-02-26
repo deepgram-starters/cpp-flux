@@ -1,0 +1,12 @@
+{
+  "name": "cpp-flux",
+  "version-string": "1.0.0",
+  "dependencies": [
+    "crow",
+    "boost-beast",
+    "boost-asio",
+    "openssl",
+    "jwt-cpp",
+    "toml11"
+  ]
+}
