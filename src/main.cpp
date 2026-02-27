@@ -22,7 +22,7 @@
 #include <boost/beast/websocket.hpp>
 #include <boost/beast/websocket/ssl.hpp>
 
-#include <jwt-cpp/jwt.h>
+#include <jwt-cpp/traits/kazuho-picojson/defaults.h>
 #include <toml.hpp>
 
 #include <atomic>
@@ -559,6 +559,7 @@ int main() {
     // WS /api/flux - WebSocket proxy to Deepgram Flux
     // ------------------------------------------------------------------
     CROW_WEBSOCKET_ROUTE(app, "/api/flux")
+        .mirrorprotocols()
         .onaccept([&cfg](const crow::request& req, void** userdata) -> bool {
             // -- 1. Validate JWT from sub-protocol header --
             auto proto_hdr = req.get_header_value("Sec-WebSocket-Protocol");
@@ -657,7 +658,7 @@ int main() {
             }
         })
         .onclose([&](crow::websocket::connection& conn,
-                      const std::string& reason) {
+                      const std::string& reason, uint16_t) {
             CROW_LOG_INFO << "Client disconnected: " << reason;
 
             std::shared_ptr<DeepgramSession> session;
